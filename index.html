@@ -1,82 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Food Order System</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
-    h1 { text-align: center; }
-    .menu-item { display: flex; justify-content: space-between; margin: 10px 0; }
-    input[type="number"] { width: 60px; }
-    .order-review { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
-    .total { font-weight: bold; margin-top: 10px; }
-    button { margin-top: 20px; padding: 10px 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Order System</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background: #f5f5f5; }
+  h1 { text-align: center; }
+  .menu-item { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; background: #fff; padding: 10px; border-radius: 6px; }
+  input[type="number"] { width: 50px; }
+  .order-review { margin-top: 20px; padding: 10px; background: #e2e2e2; border-radius: 6px; }
+  .total { font-weight: bold; margin-top: 10px; }
+  button { margin-top: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+</style>
 </head>
 <body>
 
 <h1>Food Order</h1>
 
 <form id="orderForm">
-
-  <!-- Menu items -->
   <div id="menu">
-    <div class="menu-item">
-      <span>Pizza - ₹200</span>
-      <input type="number" min="0" value="0" data-price="200">
-    </div>
-    <div class="menu-item">
-      <span>Burger - ₹100</span>
-      <input type="number" min="0" value="0" data-price="100">
-    </div>
-    <div class="menu-item">
-      <span>Pasta - ₹150</span>
-      <input type="number" min="0" value="0" data-price="150">
-    </div>
-    <div class="menu-item">
-      <span>Sandwich - ₹80</span>
-      <input type="number" min="0" value="0" data-price="80">
-    </div>
-    <div class="menu-item">
-      <span>Fries - ₹50</span>
-      <input type="number" min="0" value="0" data-price="50">
-    </div>
-    <div class="menu-item">
-      <span>Cold Drink - ₹30</span>
-      <input type="number" min="0" value="0" data-price="30">
-    </div>
-    <div class="menu-item">
-      <span>Ice Cream - ₹60</span>
-      <input type="number" min="0" value="0" data-price="60">
-    </div>
-    <div class="menu-item">
-      <span>Cake - ₹120</span>
-      <input type="number" min="0" value="0" data-price="120">
-    </div>
-    <div class="menu-item">
-      <span>Tea - ₹20</span>
-      <input type="number" min="0" value="0" data-price="20">
-    </div>
-    <div class="menu-item">
-      <span>Coffee - ₹40</span>
-      <input type="number" min="0" value="0" data-price="40">
-    </div>
+    <div class="menu-item"><span>Pizza - ₹200</span><input type="number" min="0" value="0" data-price="200"></div>
+    <div class="menu-item"><span>Burger - ₹100</span><input type="number" min="0" value="0" data-price="100"></div>
+    <div class="menu-item"><span>Pasta - ₹150</span><input type="number" min="0" value="0" data-price="150"></div>
+    <div class="menu-item"><span>Sandwich - ₹80</span><input type="number" min="0" value="0" data-price="80"></div>
+    <div class="menu-item"><span>Fries - ₹50</span><input type="number" min="0" value="0" data-price="50"></div>
+    <div class="menu-item"><span>Cold Drink - ₹30</span><input type="number" min="0" value="0" data-price="30"></div>
+    <div class="menu-item"><span>Ice Cream - ₹60</span><input type="number" min="0" value="0" data-price="60"></div>
+    <div class="menu-item"><span>Cake - ₹120</span><input type="number" min="0" value="0" data-price="120"></div>
+    <div class="menu-item"><span>Tea - ₹20</span><input type="number" min="0" value="0" data-price="20"></div>
+    <div class="menu-item"><span>Coffee - ₹40</span><input type="number" min="0" value="0" data-price="40"></div>
   </div>
 
-  <!-- Agreement -->
   <div style="margin-top: 15px;">
     <input type="checkbox" id="agree" required> I agree to the terms and conditions
   </div>
 
-  <!-- Payment -->
   <div style="margin-top: 15px;">
     <label><input type="radio" name="payment" value="COD" checked> Cash on Delivery (COD)</label><br>
     <label><input type="radio" name="payment" value="UPI"> UPI Payment</label>
   </div>
 
-  <!-- Order review -->
-  <div class="order-review" id="orderReview">
+  <div class="order-review">
     <strong>Order Review:</strong>
     <ul id="reviewList"></ul>
     <div class="total">Total: ₹<span id="totalAmount">0</span></div>
@@ -86,44 +51,48 @@
 </form>
 
 <script>
-  const form = document.getElementById('orderForm');
-  const inputs = document.querySelectorAll('#menu input');
-  const reviewList = document.getElementById('reviewList');
-  const totalAmount = document.getElementById('totalAmount');
+const inputs = document.querySelectorAll('#menu input');
+const reviewList = document.getElementById('reviewList');
+const totalAmount = document.getElementById('totalAmount');
+const form = document.getElementById('orderForm');
 
-  function updateOrder() {
-    reviewList.innerHTML = '';
-    let total = 0;
-    inputs.forEach(input => {
-      const quantity = parseInt(input.value);
-      const price = parseInt(input.dataset.price);
-      if(quantity > 0){
-        const itemName = input.previousElementSibling.textContent.split(' - ')[0];
-        const itemTotal = quantity * price;
-        const li = document.createElement('li');
-        li.textContent = ${itemName} x ${quantity} = ₹${itemTotal};
-        reviewList.appendChild(li);
-        total += itemTotal;
-      }
-    });
-    totalAmount.textContent = total;
-  }
-
-  inputs.forEach(input => input.addEventListener('input', updateOrder));
-
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    if(!document.getElementById('agree').checked){
-      alert('Please agree to the terms and conditions.');
-      return;
+function updateOrder() {
+  reviewList.innerHTML = '';
+  let total = 0;
+  inputs.forEach(input => {
+    const qty = parseInt(input.value) || 0;
+    const price = parseInt(input.dataset.price);
+    const name = input.previousElementSibling.textContent.split(' - ')[0];
+    if(qty > 0){
+      const li = document.createElement('li');
+      li.textContent = ${name} x ${qty} = ₹${qty*price};
+      reviewList.appendChild(li);
+      total += qty*price;
     }
-    const payment = form.payment.value;
-    alert(Your order is confirmed!\nTotal Amount: ₹${totalAmount.textContent}\nPayment Method: ${payment});
-    form.reset();
-    updateOrder();
   });
+  totalAmount.textContent = total;
+}
 
+inputs.forEach(input => input.addEventListener('input', updateOrder));
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  if(!document.getElementById('agree').checked){
+    alert('Please agree to the terms.');
+    return;
+  }
+  const payment = form.payment.value;
+  const total = totalAmount.textContent;
+  if(total == 0){
+    alert('Please select at least one item.');
+    return;
+  }
+  alert(✅ Order Confirmed!\nTotal Amount: ₹${total}\nPayment Method: ${payment});
+  form.reset();
   updateOrder();
+});
+
+updateOrder();
 </script>
 
 </body>

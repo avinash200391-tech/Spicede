@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Food Order System</title>
+<title>Food Order</title>
 <style>
-  body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background: #f5f5f5; }
-  h1 { text-align: center; }
-  .menu-item { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; background: #fff; padding: 10px; border-radius: 6px; }
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background: #f9f9f9; }
+  h1 { text-align: center; margin-bottom: 20px; }
+  .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; margin: 5px 0; background: #fff; border-radius: 5px; }
   input[type="number"] { width: 50px; }
-  .order-review { margin-top: 20px; padding: 10px; background: #e2e2e2; border-radius: 6px; }
+  .order-review { margin-top: 20px; padding: 10px; background: #e0e0e0; border-radius: 5px; }
   .total { font-weight: bold; margin-top: 10px; }
   button { margin-top: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
 </style>
@@ -19,6 +19,7 @@
 <h1>Food Order</h1>
 
 <form id="orderForm">
+
   <div id="menu">
     <div class="menu-item"><span>Pizza - ₹200</span><input type="number" min="0" value="0" data-price="200"></div>
     <div class="menu-item"><span>Burger - ₹100</span><input type="number" min="0" value="0" data-price="100"></div>
@@ -51,15 +52,15 @@
 </form>
 
 <script>
-const inputs = document.querySelectorAll('#menu input');
+const menuInputs = document.querySelectorAll('#menu input');
 const reviewList = document.getElementById('reviewList');
 const totalAmount = document.getElementById('totalAmount');
-const form = document.getElementById('orderForm');
+const orderForm = document.getElementById('orderForm');
 
 function updateOrder() {
   reviewList.innerHTML = '';
   let total = 0;
-  inputs.forEach(input => {
+  menuInputs.forEach(input => {
     const qty = parseInt(input.value) || 0;
     const price = parseInt(input.dataset.price);
     const name = input.previousElementSibling.textContent.split(' - ')[0];
@@ -73,22 +74,22 @@ function updateOrder() {
   totalAmount.textContent = total;
 }
 
-inputs.forEach(input => input.addEventListener('input', updateOrder));
+menuInputs.forEach(input => input.addEventListener('input', updateOrder));
 
-form.addEventListener('submit', function(e){
+orderForm.addEventListener('submit', function(e){
   e.preventDefault();
-  if(!document.getElementById('agree').checked){
-    alert('Please agree to the terms.');
-    return;
-  }
-  const payment = form.payment.value;
-  const total = totalAmount.textContent;
-  if(total == 0){
+  const total = parseInt(totalAmount.textContent);
+  if(total === 0){
     alert('Please select at least one item.');
     return;
   }
-  alert(✅ Order Confirmed!\nTotal Amount: ₹${total}\nPayment Method: ${payment});
-  form.reset();
+  if(!document.getElementById('agree').checked){
+    alert('Please agree to the terms and conditions.');
+    return;
+  }
+  const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+  alert(✅ Order Confirmed!\nTotal Amount: ₹${total}\nPayment Method: ${paymentMethod});
+  orderForm.reset();
   updateOrder();
 });
 

@@ -1,148 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tasty Bites Restaurant</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-body{font-family:sans-serif;background:#f9f6f1;margin:0;padding:0;color:#333;}
-.container{max-width:1200px;margin:0 auto;padding:20px;}
-header{background:linear-gradient(135deg,#ff6b35,#f7931e);color:#fff;text-align:center;padding:20px 0;border-radius:0 0 20px 20px;}
-.logo{font-size:2.5rem;font-weight:bold;}
-.tagline{font-style:italic;margin-bottom:20px;}
-.menu-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin:20px 0;}
-.menu-item{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);transition:transform 0.3s;}
-.menu-item:hover{transform:translateY(-5px);}
-.menu-item img{width:100%;height:180px;object-fit:cover;}
-.menu-item-content{padding:15px;}
-.menu-item h3{color:#ff6b35;margin-bottom:10px;}
-.menu-item p{color:#666;font-size:0.9rem;margin-bottom:10px;}
-.menu-item .price{font-weight:bold;}
-.add-to-cart{background:#ff6b35;color:#fff;border:none;padding:8px 15px;border-radius:50px;cursor:pointer;}
-.add-to-cart:hover{background:#e55a2a;}
-.cart-container,.checkout-form,.confirmation{background:#fff;border-radius:15px;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin:20px 0;}
-.cart-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee;}
-.cart-total{text-align:right;font-weight:bold;margin:20px 0;}
-.btn{display:inline-block;background:#ff6b35;color:#fff;padding:12px 24px;border:none;border-radius:50px;cursor:pointer;text-decoration:none;font-weight:bold;transition:0.3s;}
-.btn:hover{background:#e55a2a;transform:translateY(-3px);}
-footer{text-align:center;padding:20px;background:#333;color:#fff;border-radius:20px 20px 0 0;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Order System</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    h1 { text-align: center; }
+    .menu-item { display: flex; justify-content: space-between; margin: 10px 0; }
+    input[type="number"] { width: 60px; }
+    .order-review { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+    .total { font-weight: bold; margin-top: 10px; }
+    button { margin-top: 20px; padding: 10px 20px; }
+  </style>
 </head>
 <body>
-<div class="container">
-<header>
-<div class="logo">Tasty Bites</div>
-<p class="tagline">Authentic Flavors, Delivered to Your Doorstep</p>
-</header>
 
-<h2>Our Menu</h2>
-<div class="menu-items">
-  <div class="menu-item">
-    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" alt="Margherita Pizza">
-    <div class="menu-item-content">
-      <h3>Margherita Pizza</h3>
-      <p>Classic pizza with tomato, mozzarella, basil</p>
-      <div class="price">₹299</div>
-      <button class="add-to-cart" onclick="addToCart('Margherita Pizza',299)">Add to Cart</button>
+<h1>Food Order</h1>
+
+<form id="orderForm">
+
+  <!-- Menu items -->
+  <div id="menu">
+    <div class="menu-item">
+      <span>Pizza - ₹200</span>
+      <input type="number" min="0" value="0" data-price="200">
+    </div>
+    <div class="menu-item">
+      <span>Burger - ₹100</span>
+      <input type="number" min="0" value="0" data-price="100">
+    </div>
+    <div class="menu-item">
+      <span>Pasta - ₹150</span>
+      <input type="number" min="0" value="0" data-price="150">
+    </div>
+    <div class="menu-item">
+      <span>Sandwich - ₹80</span>
+      <input type="number" min="0" value="0" data-price="80">
+    </div>
+    <div class="menu-item">
+      <span>Fries - ₹50</span>
+      <input type="number" min="0" value="0" data-price="50">
+    </div>
+    <div class="menu-item">
+      <span>Cold Drink - ₹30</span>
+      <input type="number" min="0" value="0" data-price="30">
+    </div>
+    <div class="menu-item">
+      <span>Ice Cream - ₹60</span>
+      <input type="number" min="0" value="0" data-price="60">
+    </div>
+    <div class="menu-item">
+      <span>Cake - ₹120</span>
+      <input type="number" min="0" value="0" data-price="120">
+    </div>
+    <div class="menu-item">
+      <span>Tea - ₹20</span>
+      <input type="number" min="0" value="0" data-price="20">
+    </div>
+    <div class="menu-item">
+      <span>Coffee - ₹40</span>
+      <input type="number" min="0" value="0" data-price="40">
     </div>
   </div>
-  <div class="menu-item">
-    <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" alt="Creamy Pasta">
-    <div class="menu-item-content">
-      <h3>Creamy Pasta</h3>
-      <p>Pasta in creamy sauce with mushrooms</p>
-      <div class="price">₹249</div>
-      <button class="add-to-cart" onclick="addToCart('Creamy Pasta',249)">Add to Cart</button>
-    </div>
+
+  <!-- Agreement -->
+  <div style="margin-top: 15px;">
+    <input type="checkbox" id="agree" required> I agree to the terms and conditions
   </div>
-  <div class="menu-item">
-    <img src="https://images.unsplash.com/photo-1603893662172-99ed0bba2a46?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" alt="Classic Burger">
-    <div class="menu-item-content">
-      <h3>Classic Burger</h3>
-      <p>Juicy beef patty with lettuce & tomato</p>
-      <div class="price">₹179</div>
-      <button class="add-to-cart" onclick="addToCart('Classic Burger',179)">Add to Cart</button>
-    </div>
+
+  <!-- Payment -->
+  <div style="margin-top: 15px;">
+    <label><input type="radio" name="payment" value="COD" checked> Cash on Delivery (COD)</label><br>
+    <label><input type="radio" name="payment" value="UPI"> UPI Payment</label>
   </div>
-</div>
 
-<div class="cart-container">
-<h2>Your Order</h2>
-<div id="cart-items"><p>Your cart is empty.</p></div>
-<div id="cart-total">Total: ₹0</div>
-<button class="btn" onclick="proceedToCheckout()">Checkout</button>
-</div>
+  <!-- Order review -->
+  <div class="order-review" id="orderReview">
+    <strong>Order Review:</strong>
+    <ul id="reviewList"></ul>
+    <div class="total">Total: ₹<span id="totalAmount">0</span></div>
+  </div>
 
-<div class="checkout-form" id="checkout-form" style="display:none;">
-<h2>Checkout</h2>
-<input type="text" id="name" placeholder="Full Name"><br><br>
-<input type="tel" id="phone" placeholder="Phone Number"><br><br>
-<input type="text" id="address" placeholder="Delivery Address"><br><br>
-<input type="radio" name="payment" value="upi" checked> UPI Payment
-<input type="radio" name="payment" value="cod"> Cash on Delivery<br><br>
-<input type="text" id="upi-id" placeholder="Enter UPI ID"><br><br>
-<button class="btn" onclick="processPayment()">Complete Payment</button>
-</div>
-
-<div class="confirmation" id="confirmation" style="display:none;">
-<i class="fas fa-check-circle" style="font-size:4rem;color:green;"></i>
-<h2>Order Confirmed!</h2>
-<p>Thank you for your order. Order ID: <strong>TB123456</strong></p>
-<button class="btn" onclick="placeNewOrder()">Place New Order</button>
-</div>
-
-<footer>
-<p>© 2023 Tasty Bites | Email: info@tastybites.com</p>
-</footer>
-</div>
+  <button type="submit">Place Order</button>
+</form>
 
 <script>
-let cart=[];
-function addToCart(name,price){
-  const existing=cart.find(i=>i.name===name);
-  if(existing) existing.quantity++; else cart.push({name:name,price:price,quantity:1});
-  updateCart();
-}
-function updateCart(){
-  const cartItems=document.getElementById('cart-items');
-  const cartTotal=document.getElementById('cart-total');
-  if(cart.length===0){cartItems.innerHTML='<p>Your cart is empty.</p>';cartTotal.textContent='Total: ₹0';return;}
-  let html='';let total=0;
-  cart.forEach(i=>{let itemTotal=i.price*i.quantity;total+=itemTotal;
-  html+=<div class="cart-item"><div>${i.name} x ${i.quantity}</div><div>₹${itemTotal}</div></div>;});
-  cartItems.innerHTML=html;cartTotal.textContent=Total: ₹${total};
-}
-function proceedToCheckout(){
-  if(cart.length===0){alert('Add items to cart first');return;}
-  document.getElementById('checkout-form').style.display='block';
-  document.getElementById('checkout-form').scrollIntoView({behavior:'smooth'});
-}
-function processPayment(){
-  const name=document.getElementById('name').value;
-  const phone=document.getElementById('phone').value;
-  const address=document.getElementById('address').value;
-  const payment=document.querySelector('input[name="payment"]:checked').value;
-  if(!name||!phone||!address){alert('Fill all fields');return;}
-  if(payment==='upi'&&!document.getElementById('upi-id').value){alert('Enter UPI ID');return;}
-  document.getElementById('checkout-form').style.display='none';
-  document.getElementById('confirmation').style.display='block';
-  document.getElementById('confirmation').scrollIntoView({behavior:'smooth'});
-}
-function placeNewOrder(){
-  cart=[];updateCart();
-  document.getElementById('checkout-form').style.display='none';
-  document.getElementById('confirmation').style.display='none';
-  document.getElementById('name').value='';
-  document.getElementById('phone').value='';
-  document.getElementById('address').value='';
-  document.getElementById('upi-id').value='';
-  document.querySelector('input[name="payment"][value="upi"]').checked=true;
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-document.querySelectorAll('input[name="payment"]').forEach(r=>r.addEventListener('change',function(){
-  document.getElementById('upi-id').style.display=this.value==='upi'?'block':'none';
-}));
+  const form = document.getElementById('orderForm');
+  const inputs = document.querySelectorAll('#menu input');
+  const reviewList = document.getElementById('reviewList');
+  const totalAmount = document.getElementById('totalAmount');
+
+  function updateOrder() {
+    reviewList.innerHTML = '';
+    let total = 0;
+    inputs.forEach(input => {
+      const quantity = parseInt(input.value);
+      const price = parseInt(input.dataset.price);
+      if(quantity > 0){
+        const itemName = input.previousElementSibling.textContent.split(' - ')[0];
+        const itemTotal = quantity * price;
+        const li = document.createElement('li');
+        li.textContent = ${itemName} x ${quantity} = ₹${itemTotal};
+        reviewList.appendChild(li);
+        total += itemTotal;
+      }
+    });
+    totalAmount.textContent = total;
+  }
+
+  inputs.forEach(input => input.addEventListener('input', updateOrder));
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!document.getElementById('agree').checked){
+      alert('Please agree to the terms and conditions.');
+      return;
+    }
+    const payment = form.payment.value;
+    alert(Your order is confirmed!\nTotal Amount: ₹${totalAmount.textContent}\nPayment Method: ${payment});
+    form.reset();
+    updateOrder();
+  });
+
+  updateOrder();
 </script>
+
 </body>
 </html>
